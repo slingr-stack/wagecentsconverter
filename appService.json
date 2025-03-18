@@ -1,0 +1,139 @@
+{
+    "label": "Wagecents XLSX to CSV converter",
+    "name": "wagecentsconverter",
+    "apiVersion": "v1",
+    "internal": false,
+    "configurationType": "GLOBAL",
+    "deployment": {
+        "jsService": true,
+        "profiles":[
+            {
+                "name": "small",
+                "label": "Small",
+                "memory": 128,
+                "description": "Small Memory Allocation"
+            },
+            {
+                "name": "default",
+                "label": "Default",
+                "memory": 256,
+                "description": "Default Memory Allocation"
+            },
+            {
+                "name": "medium",
+                "label": "Medium",
+                "memory": 512,
+                "description": "Medium Memory Allocation"
+            },
+            {
+                "name": "big",
+                "label": "Big",
+                "memory": 256,
+                "description": "Big Memory Allocation"
+            }
+        ],
+        "allowMultipleInstances": false
+    },
+    "status": "ACTIVE",
+    "stores": [{
+        "name": "creds" 
+    }],
+    "events": [
+        {
+            "label": "On Upload Complete",
+            "name": "onUploadComplete",
+            "description": "Callback event for when a document is done uploading to google drive"
+        },
+        {
+            "label": "On Upload Error",
+            "name": "onUploadError",
+            "description": "Callback event for when an error ocurred uploading a file from google drive"
+        },
+        {
+            "label": "On Download Complete",
+            "name": "onDownloadComplete",
+            "description": "Callback event for when a document is done downloading from google drive"
+        },
+        {
+            "label": "On Download Error",
+            "name": "onDownloadError",
+            "description": "Callback event for when an error ocurred downloading a file from google drive"
+        }
+    ],
+    "functions": [
+        {
+            "label": "Upload File",
+            "name": "uploadFile",
+            "description": "Upload a file to google drive for conversion",
+            "callbacks": [
+                {
+                    "name": "onUploadComplete",
+                    "maxExpectedResponses": 1 
+                },
+                {
+                    "name": "onUploadError",
+                    "maxExpectedResponses": 1 
+                }
+            ]
+        },
+        {
+            "label": "Set Credentials",
+            "name": "setCredentials",
+            "description": "Set the google service account credentials in the datastore"
+        },
+        {
+            "label": "Get Credentials",
+            "name": "getCredentials",
+            "description": "Returns the credentials in use by the end point, without the private_key"
+        },
+        {
+            "label": "Clear Credentials",
+            "name": "clearCredentials",
+            "description": "Removes the google credentials from the datastore"
+        },
+        {
+            "label": "List Folders",
+            "name": "listFolders",
+            "description": "Returns the list of folders the current credentials has access to"
+        },
+        {
+            "label": "Download CSV",
+            "name": "downloadCsv",
+            "description": "Downloads the CSV of a converted file from google drive and uploads it to the platform",
+            "callbacks": [
+                {
+                    "name": "onDownloadComplete",
+                    "maxExpectedResponses": 1
+                },
+                {
+                    "name": "onDownloadError",
+                    "maxExpectedResponses": 1
+                }
+            ]
+        },
+        {
+            "label": "Get Sheet Titles",
+            "name": "getSheetTitles",
+            "description": "Returns the list of sheet titles of an specific Google file"
+        },
+        {
+            "label": "Delete File",
+            "name": "deleteFile",
+            "description": "Delete a file from Google Drive"
+        }
+    ],
+    "configuration":[
+        {
+            "name": "token",
+            "label": "Token",
+            "description": "Sample token used on service",
+            "type": "text",
+            "required": true
+        },
+        {
+            "name": "webhook",
+            "label": "Web Services URL",
+            "type": "webhookUrl"
+        }
+    ]
+}
